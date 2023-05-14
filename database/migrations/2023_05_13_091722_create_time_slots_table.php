@@ -11,15 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('time_slots', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->date('date_of_birth');
-            $table->rememberToken();
+            $table->date('date');
+            $table->integer('max_participants')->default(1);
+            $table->unsignedBigInteger('escape_room_id');
             $table->timestamps();
+
+            $table->foreign('escape_room_id')->references('id')->on('escape_rooms')->onDelete('cascade');
         });
     }
 
@@ -28,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('time_slots');
     }
 };
